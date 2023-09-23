@@ -6,11 +6,16 @@ from order.models import Discount
 import datetime.datetime as dt
 from datetime import timedelta
 
+def get_defualt_discount():
+    res = Discount.objects.get_or_create(percent=100, start_time=dt.now(), end_time=dt.now()+ timedelta(100000))
+    return res
+
 # Create your models here.
 class Category(BaseModel):
     name = models.CharField(max_length=30)
     description = models.TextField(null=True, blank=True)
     parent_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+
 
 class Product(BaseModel):
     name = models.CharField(max_length=30)
