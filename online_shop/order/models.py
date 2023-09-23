@@ -39,3 +39,31 @@ class Order(BaseModel):
 
     def __str__(self):
         return f"Order{self.id}"
+
+
+class order_item(BaseModel):
+    order = models.ForeignKey(Order, verbose_name=_("Order"), on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, verbose_name=_("Product Name"), on_delete=models.PROTECT)
+    quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, editable=False)
+    
+    # comment = models.ForeignKey("comment", on_delete=models.CASCADE)
+    class Meta:
+        verbose_name_plural = "Order order_items"
+
+
+    @property
+    def total_price(self):
+        if self.price and self.quantity:
+            return self.price * self.quantity
+        else:
+            return 0
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.price is None:
+            self.price = self.product.price
+            self.save()
+
+    def __str__(self):
+        return f"Order No {self.order.id} item No: {self.id}"
