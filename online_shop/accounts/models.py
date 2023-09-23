@@ -72,3 +72,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+class Address(BaseModel):
+    state_choices =[('Ahvaz','Ahvaz'), ('Arak','Arak'), ('Ardabil','Ardabil'), ('Bandar Abbas','Bandar Abbas'), ('Birjand','Birjand'), ('Bojnord', 'Bojnord'), ('Bushehr','Bushehr'), ('Gorgan',  'Gorgan'), ('Hamadan', 'Hamadan'), ('Ilam', 'Ilam'), ('Isfahan', 'Isfahan'), ('Karaj', 'Karaj'), ('Kerman', 'Kerman'), ('Kermanshah', 'Kermanshah'), ('Khorramabad' 'Khorramabad'), ('Mashhad', 'Mashhad'), ('Qazvin', 'Qazvin'), ('Qom','Qom'), ('Rasht', 'Rasht'), ('Sanandaj', 'Rasht'), ('Sari', 'Sari'), ('Semnan', 'Semnan'), ('Shahr-e Kord', 'Shahr-e Kord'),( 'Shiraz', 'Shiraz'), ('Tabriz', 'Tabriz'), ('Tehran', 'Tehran'), ('Urmia', 'Urmia'), ('Yasuj', 'Yasuj'), ('Yazd', 'Yazd'), ('Zahedan', 'Zahedan'),('Zanjan', 'Zanjan')]
+    title = models.CharField(max_length=100)
+    state = models.CharField(max_length=50, choices=state_choices)
+    city = models.CharField(max_length=50)
+    # city = models.CharField(max_length=50, choices=city_choices)
+    zip_code = models.PositiveIntegerField()
+    detailed_adress = models.TextField()
+
+    
